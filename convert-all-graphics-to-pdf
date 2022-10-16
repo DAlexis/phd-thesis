@@ -1,0 +1,22 @@
+#!/bin/bash
+
+svgFiles=`ls images/*.svg`
+for filename in $svgFiles
+do
+    pdfFilename=`echo $filename | sed s/.svg/.pdf/`
+    echo " + Converting $filename --> $pdfFilename..."
+    inkscape --without-gui --file=$filename --export-pdf=$pdfFilename
+done
+
+psFiles=`ls images/*.ps`
+for filename in $psFiles
+do
+    pdfFilename=`echo $filename | sed s/.ps/.pdf/`
+    echo " + Converting $filename --> $pdfFilename..."
+    #ps2pdf $filename $pdfFilename
+    inkscape --without-gui --file=$filename --export-pdf=$pdfFilename
+done
+
+
+echo " + Converting *.odg to pdf"
+soffice --nologo --invisible --convert-to pdf ./images/*.odg --outdir ./images
